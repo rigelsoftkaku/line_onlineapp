@@ -1,144 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>LIFF Starter</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div id="liffAppContent">
-            <!-- ACTION BUTTONS -->
-            <div class="buttonGroup">
-                <div class="buttonRow">
-                    <button id="openWindowButton">Open External Window</button>
-                    <button id="closeWindowButton">Close LIFF App</button>
-                </div>
-                <div class="buttonRow">
-                    <button id="scanQrCodeButton">Open QR Code Reader</button>
-                    <button id="sendMessageButton">Send Message</button>
-                </div>
-                <div class="buttonRow">
-                    <button id="getAccessToken">Get Access Token</button>
-                    <button id="getProfileButton">Get Profile</button>
-                </div>
-                <div class="buttonRow">
-                    <button id="shareTargetPicker">Open Share Target Picker</button>
-                </div>
-            </div>
-            <div id="shareTargetPickerMessage"></div>
-            <!-- ACCESS TOKEN DATA -->
-            <div id="accessTokenData" class="hidden textLeft">
-                <h2>Access Token</h2>
-                <a href="#" onclick="toggleAccessToken()">Close Access Token</a>
-                <table>
-                    <tr>
-                        <th>accessToken</th>
-                        <td id="accessTokenField"></td>
-                    </tr>
-                </table>
-            </div>
-            <!-- SCAN QR RESULT -->
-            <div id="scanQr" class="hidden textLeft">
-                <h2>QR Code reader</h2>
-                <a href="#" onclick="toggleQrCodeReader()">Close QR Code Reader Result</a>
-                <table>
-                    <tr>
-                        <th>scanCode Result</th>
-                        <td id="scanQrField"></td>
-                    </tr>
-                </table>
-            </div>
-            <!-- PROFILE INFO -->
-            <div id="profileInfo" class="hidden textLeft">
-                <h2>Profile</h2>
-                <a href="#" onclick="toggleProfileData()">Close Profile</a>
-                <div id="profilePictureDiv">
-                </div>
-                <table>
-                    <tr>
-                        <th>userId</th>
-                        <td id="userIdProfileField"></td>
-                    </tr>
-                    <tr>
-                        <th>displayName</th>
-                        <td id="displayNameField"></td>
-                    </tr>
-                    <tr>
-                        <th>statusMessage</th>
-                        <td id="statusMessageField"></td>
-                    </tr>
-                </table>
-            </div>
-            <!-- LIFF DATA -->
-            <div id="liffData">
-                <h2 id="liffDataHeader" class="textLeft">LIFF Data</h2>
-                <table>
-                    <tr>
-                        <th>OS</th>
-                        <td id="deviceOS" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>Language</th>
-                        <td id="browserLanguage" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>LIFF SDK Version</th>
-                        <td id="sdkVersion" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>LINE Version</th>
-                        <td id="lineVersion" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>isInClient</th>
-                        <td id="isInClient" class="textLeft"></td>
-                    </tr>
-                    <tr>
-                        <th>isLoggedIn</th>
-                        <td id="isLoggedIn" class="textLeft"></td>
-                    </tr>
-                </table>
-            </div>
-            <!-- LOGIN LOGOUT BUTTONS -->
-            <div class="buttonGroup">
-                <button id="liffLoginButton">Log in</button>
-                <button id="liffLogoutButton">Log out</button>
-            </div>
-            <div id="statusMessage">
-                <div id="isInClientMessage"></div>
-                <div id="apiReferenceMessage">
-                    <p>Available LIFF methods vary depending on the browser you use to open the LIFF app.</p>
-                    <p>Please refer to the <a href="https://developers.line.biz/en/reference/liff/#initialize-liff-app">API reference page</a> for more information.</p>
-                </div>
-            </div>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0"
+    />
+    <title>申請画面</title>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css" />
+    <style type="text/css">
+      .text_center {
+        text-align: center;
+      }
+      .page-footer {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .list-context {
+        text-align: left;
+        display: block;
+      }
+
+      .progress-online {
+        margin-bottom: 10px;
+      }
+
+      .progress-bar {
+        background-color: #339999;
+      }
+
+      .list-group-item {
+        position: relative;
+        display: block;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: -1px;
+        border: 0px;
+        text-align: left;
+        text-decoration: none;
+      }
+
+      .btntop {
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .footer ul {
+        list-style: none;
+        background-color: #00a040;
+        float: left;
+        width: 100%;
+        height: 40px;
+        padding-left: 10px;
+        text-align: center;
+      }
+
+      #errorMsg {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <apex:form id="interviewListForm">
+      <div
+        class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"
+      >
+        <h5 class="my-0 mr-md-auto font-weight-normal">窓口改善システム</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+          <a class="p-2 text-dark" href="/apex/DemoApplicationLoaderPage"
+            >メニュー００１</a
+          >
+          <a class="p-2 text-dark" href="#">メニュー００２</a>
+          <a class="p-2 text-dark" href="#">メニュー００３</a>
+          <a class="p-2 text-dark" href="#">メニュー００４</a>
+        </nav>
+      </div>
+
+      <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">申請ガイド</h1>
+        <p class="lead">
+          異なる市区町村から港区へ引越しする際に港区にて必要となる手続きを洗い出します。
+        </p>
+      </div>
+
+      <div class="container">
+        <div class="progress progress-online">
+          <div
+            class="progress-bar"
+            role="progressbar"
+            aria-valuenow="70"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="width: 0%;"
+          ></div>
         </div>
-        <!-- LIFF ID ERROR -->
-        <div id="liffIdErrorMessage" class="hidden">
-            <p>You have not assigned any value for LIFF ID.</p>
-            <p>If you are running the app using Node.js, please set the LIFF ID as an environment variable in your Heroku account follwing the below steps: </p>
-            <code id="code-block">
-                <ol>
-                    <li>Go to `Dashboard` in your Heroku account.</li>
-                    <li>Click on the app you just created.</li>
-                    <li>Click on `Settings` and toggle `Reveal Config Vars`.</li>
-                    <li>Set `MY_LIFF_ID` as the key and the LIFF ID as the value.</li>
-                    <li>Your app should be up and running. Enter the URL of your app in a web browser.</li>
-                </ol>
-            </code>
-            <p>If you are using any other platform, please add your LIFF ID in the <code>index.html</code> file.</p>
-            <p>For more information about how to add your LIFF ID, see <a href="https://developers.line.biz/en/reference/liff/#initialize-liff-app">Initializing the LIFF app</a>.</p>
+        <div class="card-deck mb-3 text-center">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+              <h4 class="my-0 font-weight-normal">
+                申請手続きの前提についての質問
+              </h4>
+            </div>
+            <div class="card-body">
+              <u class="list-group">
+                <li class="list-group-item">
+                  <span
+                    >Q1：
+                    以下のうち該当するものをすべて選択し、「次へ」を押してください。</span
+                  >
+                </li>
+                <li class="list-group-item">
+                  <input
+                    type="checkbox"
+                    name="options"
+                  />日本国外から港区へ転入する方がいる
+                </li>
+                <li class="list-group-item">
+                  <input
+                    type="checkbox"
+                    name="options"
+                  />国民健康保険に加入する方がいる
+                </li>
+                <li class="list-group-item">
+                  <input
+                    type="checkbox"
+                    name="options"
+                  />国民年金に新たに加入する方がいる
+                </li>
+              </u>
+              <span id="errorMsg"></span>
+            </div>
+          </div>
         </div>
-        <!-- LIFF INIT ERROR -->
-        <div id="liffInitErrorMessage" class="hidden">
-            <p>Something went wrong with LIFF initialization.</p>
-            <p>LIFF initialization can fail if a user clicks "Cancel" on the "Grant permission" screen, or if an error occurs in the process of <code>liff.init()</code>.</p>
+        <div class="btntop">
+          <button type="button" class="btn btn-secondary">戻る</button>
+          <button type="button" class="btn btn-info" id="toNext" onclick="">
+            次へ
+          </button>
         </div>
-        <!-- NODE.JS LIFF ID ERROR -->
-        <div id="nodeLiffIdErrorMessage" class="hidden">
-            <p>Unable to receive the LIFF ID as an environment variable.</p>
-        </div>
-        <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-        <script src="liff-starter.js"></script>
-    </body>
+      </div>
+    </apex:form>
+
+    <div class="footer" style="clear: both; margin-top: 30px;">
+      <address style="text-align: center;">
+        Copyright <span>©</span> 〇〇〇株式会社. ALL RIGHTS RESERVED.
+      </address>
+    </div>
+    <script
+      charset="utf-8"
+      src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"
+    ></script>
+    <script src="static/js/jquery-3.4.1.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="liff-starter.js"></script>
+  </body>
 </html>
